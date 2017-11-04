@@ -147,7 +147,7 @@ vector<string> getMinSequenceStrings(vector<pair<string,vector<uint> > > hashVal
 void containmentHash(string smallString, string largeString, uint noOfHashFns, uint kMerLength)
 {
     bloom_parameters parameters;
-    parameters.projected_element_count = 10;
+    parameters.projected_element_count = largeString.size();
     parameters.false_positive_probability = 0.001;
     parameters.random_seed = 0xA5A5A5A5;
     parameters.compute_optimal_parameters();
@@ -166,6 +166,20 @@ void containmentHash(string smallString, string largeString, uint noOfHashFns, u
     }
 
     vector<string> minSequence1 = getMinSequenceStrings(shringleHashPair1);
-    
+
+    for(uint i =0 ;i<shringles2.size();i++)
+    {
+        filter.insert(shringles2[i]);
+    }
+
+    uint intersectionCount = 0;
+
+    for(uint i =0 ;i<minSequence1.size();i++) 
+    {
+        if (filter.contains(minSequence1[i]))
+            intersectionCount++;
+    } 
+    float containmentIndex = (float)(intersectionCount - (int)(parameters.false_positive_probability*noOfHashFns))/(float)noOfHashFns;
+    cout << "Containment Index: " << containmentIndex << endl;
 }
 
