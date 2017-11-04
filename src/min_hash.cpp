@@ -6,10 +6,9 @@
 //  Copyright © 2017 Anand Kulkarni. All rights reserved.
 //
 
-#include "../include/hash.h"
+#include "../include/hash.hpp"
 
 int main (int argc, const char * argv[]) {
-    vector<string> shringles = getShringles("ABCDE",3);
     minHash("ABCDEF", "ABCDEE",4,3);
     return 0;
 }

@@ -1,4 +1,4 @@
-#include "../include/index.h"
+#include "../../include/index.hpp"
 
 float getJacardIndex(vector<uint> sequence1, vector<uint> sequence2)
 {

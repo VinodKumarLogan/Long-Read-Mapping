@@ -1,5 +1,6 @@
-#include "../include/hash.h"
-#include "../include/index.h"
+#include "../../include/hash.hpp"
+#include "../../include/index.hpp"
+#include "../bloom_filter/bloom_filter.hpp"
 
 vector<string> getShringles(string s, uint k)
 {
@@ -121,3 +122,50 @@ void minHash(string input1, string input2, uint m, uint k)
     float jacardIndex = getJacardIndex(minSequence1,minSequence2);
     cout << "JACARD INDEX : "<< jacardIndex << endl;
 }
+
+
+vector<string> getMinSequenceStrings(vector<pair<string,vector<uint> > > hashValuesPair)
+{
+    vector<string> minSequence;
+    for(int i=0; i< hashValuesPair[0].second.size();i++)
+    {
+        int min = hashValuesPair[0].second[i];
+        string minString = hashValuesPair[0].first;
+        for(int j =1; j< hashValuesPair.size();j++)
+        {
+            if(min > hashValuesPair[j].second[i])
+            {
+                min = hashValuesPair[j].second[i];
+                minString = hashValuesPair[j].first;
+            }
+        }
+        minSequence.push_back(minString);
+    }
+    return minSequence;
+}
+
+void containmentHash(string smallString, string largeString, uint noOfHashFns, uint kMerLength)
+{
+    bloom_parameters parameters;
+    parameters.projected_element_count = 10;
+    parameters.false_positive_probability = 0.001;
+    parameters.random_seed = 0xA5A5A5A5;
+    parameters.compute_optimal_parameters();
+    bloom_filter filter(parameters);
+
+    vector<string> shringles1 = getShringles(smallString, kMerLength);
+    vector<string> shringles2 = getShringles(largeString, kMerLength);
+    vector<pair<string, vector<uint> > > shringleHashPair1;
+    
+    vector<uint> randoms = generateRandoms(noOfHashFns);
+    for(uint i =0 ;i<shringles1.size();i++)
+    {
+        size_t h1 = hash<string>{}(shringles1[i]);
+        vector<uint> hashValues = generateRandomMinHashes(h1, randoms);
+        shringleHashPair1.push_back(make_pair(shringles1[i], hashValues));
+    }
+
+    vector<string> minSequence1 = getMinSequenceStrings(shringleHashPair1);
+    
+}
+
