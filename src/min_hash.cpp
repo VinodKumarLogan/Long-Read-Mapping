@@ -9,6 +9,7 @@
 #include "../include/hash.hpp"
 
 int main (int argc, const char * argv[]) {
-    minHash("ABCDEF", "ABCDEE",4,3);
+    float minHashNumber =  minHash("ABCDEF", "ABCDEE",4,3);
+    cout << minHashNumber;
     return 0;
 }

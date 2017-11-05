@@ -1,6 +1,6 @@
 #include "../../include/index.hpp"
 
-float getJacardIndex(vector<uint> sequence1, vector<uint> sequence2)
+float getMinHashIndex(vector<uint> sequence1, vector<uint> sequence2, uint minHashNumber)
 {
     uint intesectionGroup = 0;
     uint unionGroup = 0;
@@ -17,8 +17,8 @@ float getJacardIndex(vector<uint> sequence1, vector<uint> sequence2)
         }
     }
     
-    cout << "Intersection : "<< intesectionGroup << endl;
-    cout << "Union : "<< unionGroup << endl;
-    float index = float(intesectionGroup)/float(unionGroup);
+//    cout << "Intersection : "<< intesectionGroup << endl;
+//    cout << "Union : "<< unionGroup << endl;
+    float index = float(intesectionGroup)/float(minHashNumber);
     return index;
 }

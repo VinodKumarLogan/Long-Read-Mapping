@@ -1,3 +1,3 @@
 #include "common.hpp"
 
-float getJacardIndex(vector<uint>, vector<uint>);
+float getMinHashIndex(vector<uint>, vector<uint>, uint);
