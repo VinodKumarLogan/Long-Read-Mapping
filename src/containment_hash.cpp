@@ -1,6 +1,6 @@
 #include "../include/hash.hpp"
 
 int main (int argc, const char * argv[]) {
-    cout << containmentHash("ABCDEF", "ABCDEE",10,3);
+    cout << containmentHash("AAACCBA", "ABCAABCBAABCACCBBABCABABACBBABCABCABCCCCA",3,3);
     return 0;
 }

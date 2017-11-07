@@ -1,4 +1,5 @@
 #include "../../include/index.hpp"
+#include "../../include/misc.hpp"
 
 float getMinHashIndex(vector<uint> sequence1, vector<uint> sequence2, uint minHashNumber)
 {
@@ -16,9 +17,20 @@ float getMinHashIndex(vector<uint> sequence1, vector<uint> sequence2, uint minHa
             unionGroup += 2;
         }
     }
-    
-//    cout << "Intersection : "<< intesectionGroup << endl;
-//    cout << "Union : "<< unionGroup << endl;
     float index = float(intesectionGroup)/float(minHashNumber);
     return index;
+}
+
+float getJacardIndex(string shortRead, string longRead, uint iSingleLen)
+{
+    set<string> loSingles = getShringlesSet(longRead, iSingleLen);
+    set<string>  shSingles = getShringlesSet(shortRead, iSingleLen);
+    vector<string> intersectionSet;
+    vector<string> unionSet;
+    set_intersection(loSingles.begin(),loSingles.end(),shSingles.begin(),shSingles.end(),back_inserter(intersectionSet));
+    set_union(loSingles.begin(),loSingles.end(),shSingles.begin(),shSingles.end(),back_inserter(unionSet));
+    float interesectionSize =  (float)intersectionSet.size();
+    float unionSize =  (float)unionSet.size();
+    float jacardIndex = interesectionSize / unionSize;
+    return jacardIndex;
 }

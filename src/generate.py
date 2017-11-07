@@ -1,18 +1,26 @@
 import numpy as np
 
-def buildShortAndLongReads(m, len_small_string, len_large_string, short_reads, long_reads):
+def buildShortAndLongReads(m, lenSmallString, lenLargeString, shortReads, longReads):
 	for i in range(m):
-		short_read = ''.join(np.random.choice(['A', 'C', 'T', 'G'], len_small_string))
-		long_read = ''.join(np.random.choice(['A', 'C', 'T', 'G'], len_large_string)) + short_read
-		short_reads.write(short_read + '\n')
-		print(short_read)
-		long_reads.write(long_read + '\n')
-		print(long_read)
-	short_reads.close()
-	long_reads.close()
+		shortRead = ''.join(np.random.choice(['A', 'C', 'T', 'G'], lenSmallString))
+		longRead = ''.join(np.random.choice(['A', 'C', 'T', 'G'], lenLargeString)) + shortRead
+		shortReads.write(shortRead + '\n')
+		longReads.write(longRead + '\n')
 
-short_read_path = '..\\data\\short_read.txt'
-short_reads = open(short_read_path,'w')
-long_read_path = '..\\data\\long_read.txt'
-long_reads = open(long_read_path,'a')		
-buildShortAndLongReads(10, 100, 1400, short_reads, long_reads)
+def main():
+	numberOfSequences = 10
+	shortReadLength = 100
+	longReadLength = 1000
+	shortReadPath = '../data/short_read.txt'
+	longReadPath = '../data/long_read.txt'
+
+	shortReads = open(shortReadPath,'w')
+	longReads = open(longReadPath,'a')	
+
+	buildShortAndLongReads(numberOfSequences, shortReadLength, longReadLength, shortReads, longReads)
+	
+	shortReads.close()
+	longReads.close()
+
+if __name__=="__main__":
+	main()
