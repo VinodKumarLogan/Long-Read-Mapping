@@ -1,4 +1,5 @@
 #include "../../include/misc.hpp"
+#include <iomanip>
 
 vector<string> getShringles(string s, uint k)
 {
@@ -37,12 +38,15 @@ vector<string> readFromPath(string path)
 
 void printResult(vector<vector<vector<float>>> result)
 {
+    cout.setf(ios::fixed);
+    //cout << setprecision(3) << a << endl;
+
 	for(int i =0;i<result.size();i++)
 	{
 		for(int j = 0; j< result[i].size();j++)
 		{
-			cout << result[i][j][0] << "," << result[i][j][1] << "," << result[i][j][2] << "  ";
+			cout << setprecision(3) << result[i][j][0] << ", " << result[i][j][1] << ", " << result[i][j][2] << "\t";
 		}
-        cout << endl << endl << endl;
+        cout << endl;
 	}
 }
