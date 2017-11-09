@@ -1,9 +1,9 @@
-#include "boost/program_options.hpp" 
+//#include "boost/program_options.hpp" 
 #include "../include/hash.hpp"
 #include "../include/index.hpp"
 #include "../include/misc.hpp"
 
-namespace po = boost::program_options;
+//namespace po = boost::program_options;
 /*
 bool processCommandLine(int argc, char **argv, string short_read_path, string long_read_path, uint hash, uint kmer)
 {
@@ -53,6 +53,7 @@ int main (int argc, const char * argv[])
 	vector<vector<vector<float>>> result;
 	vector<vector<float>> rowVector;
 	vector<float> everyPair;
+    //cout <<shortStrings.size() << " "<<longStrings.size();
 	for(int i =0; i< shortStrings.size();i++)
 	{
 		rowVector.clear();

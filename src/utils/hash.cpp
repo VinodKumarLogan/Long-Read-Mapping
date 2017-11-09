@@ -98,7 +98,7 @@ float containmentHash(string smallString, string largeString, uint noOfHashFns, 
     parameters.compute_optimal_parameters();
     bloom_filter filter(parameters);
 
-    cout << shringles2.size() << endl;
+    //cout << shringles2.size() << endl;
 
 
     vector<uint> randoms = generateRandoms(noOfHashFns);

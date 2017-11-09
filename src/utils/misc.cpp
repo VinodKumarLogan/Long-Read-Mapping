@@ -43,6 +43,6 @@ void printResult(vector<vector<vector<float>>> result)
 		{
 			cout << result[i][j][0] << "," << result[i][j][1] << "," << result[i][j][2] << "  ";
 		}
-		cout << endl;
+        cout << endl << endl << endl;
 	}
 }
