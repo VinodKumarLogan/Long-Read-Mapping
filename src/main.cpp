@@ -1,9 +1,17 @@
+<<<<<<< HEAD
 #include "boost/program_options.hpp" 
+=======
+//#include "boost/program_options.hpp" 
+>>>>>>> 3becf3b6fdf6b9813b897181bb27f70d1cca2573
 #include "../include/hash.hpp"
 #include "../include/index.hpp"
 #include "../include/misc.hpp"
 
+<<<<<<< HEAD
 namespace po = boost::program_options;
+=======
+//namespace po = boost::program_options;
+>>>>>>> 3becf3b6fdf6b9813b897181bb27f70d1cca2573
 /*
 bool processCommandLine(int argc, char **argv, string short_read_path, string long_read_path, uint hash, uint kmer)
 {
