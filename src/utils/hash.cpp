@@ -2,7 +2,9 @@
 #include "../../include/index.hpp"
 #include "../../include/random.hpp"
 #include "../../include/misc.hpp"
+#include "../../include/io.hpp"
 #include "../bloom_filter/bloom_filter.hpp"
+
 
 vector<uint> getMinSequence(vector<pair<string,vector<uint> > > hashValuesPair)
 {
@@ -97,6 +99,7 @@ float containmentHash(string smallString, string largeString, uint noOfHashFns, 
     parameters.maximum_number_of_hashes = noOfHashFns;
     parameters.compute_optimal_parameters();
     bloom_filter filter(parameters);
+    bloom_filter tmp;
 
     cout << shringles2.size() << endl;
 
@@ -117,13 +120,22 @@ float containmentHash(string smallString, string largeString, uint noOfHashFns, 
     }
 
     uint intersectionCount = 0;
+    uint tmpCount = 0;
+
+    cout << "storing the data to file tmp.boost \n";
+    save_bloom_filter("tmp.boost", filter);
+    tmp = get_bloom_filter("tmp.boost");
+
 
     for(uint i =0 ;i<minSequence1.size();i++) 
     {
         if (filter.contains(minSequence1[i]))
             intersectionCount++;
+        if (tmp.contains(minSequence1[i]))
+            tmpCount++;
     } 
-    
+    if (intersectionCount==tmpCount)
+        cout<<"Success\n";
     float containmentIndex = (float)(intersectionCount - (int)(parameters.false_positive_probability*noOfHashFns))/(float)noOfHashFns;
     return containmentIndex;
 }
