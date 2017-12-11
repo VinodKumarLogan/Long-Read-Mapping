@@ -2,20 +2,18 @@
 
 using namespace std;
 
-bloom_filter get_bloom_filter(const char* filename) 
+void get_bloom_filter(const char* filename, bloom_filter* filter) 
 {
 	ifstream file;
-	bloom_filter filter;
     file.open(filename, ios::in);
-    file.read((char*)&filter, sizeof(bloom_filter));
+    file.read((char*)filter, sizeof(bloom_filter));
     file.close();
-    return filter;
 }
 
-void save_bloom_filter(const char* filename, bloom_filter filter) 
+void save_bloom_filter(const char* filename, bloom_filter* filter) 
 {
 	ofstream file;
     file.open(filename, ios::out);
-    file.write((char*)&filter, sizeof(bloom_filter));
+    file.write((char*)filter, sizeof(bloom_filter));
     file.close();
 }

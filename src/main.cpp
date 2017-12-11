@@ -1,55 +1,8 @@
-<<<<<<< HEAD
 #include "boost/program_options.hpp" 
-=======
-//#include "boost/program_options.hpp" 
->>>>>>> 3becf3b6fdf6b9813b897181bb27f70d1cca2573
 #include "../include/hash.hpp"
 #include "../include/index.hpp"
 #include "../include/misc.hpp"
 
-<<<<<<< HEAD
-namespace po = boost::program_options;
-=======
-//namespace po = boost::program_options;
->>>>>>> 3becf3b6fdf6b9813b897181bb27f70d1cca2573
-/*
-bool processCommandLine(int argc, char **argv, string short_read_path, string long_read_path, uint hash, uint kmer)
-{
-    try
-    {
-        po::options_description desc("Program Usage", 1024, 512);
-        desc.add_options()
-          ("help,h", "Usage: ./result -")
-          ("short-read,s", po::value<string>(&short_read_path)->required(), "path of file to short reads")
-          ("long-read,l", po::value<string>(&long_read_path)->required(), "path of file to long reads")
-          ("hash-count,c", po::value<uint>(&hash)->required(), "number of hash functions")
-          ("k-mer-length,k", po::value<uint>(&kmer)->required(), "legth of k mers")
-        ;
-
-        po::variables_map vm;
-        po::store(po::parse_command_line(argc, argv, desc), vm);
-
-        if (vm.count("help"))
-        {
-            std::cout << desc << "\n";
-            return false;
-        }
-        po::notify(vm);
-    }
-    catch(std::exception& e)
-    {
-        std::cerr << "Error: " << e.what() << "\n";
-        return false;
-    }
-    catch(...)
-    {
-        std::cerr << "Unknown error!" << "\n";
-        return false;
-    }
-
-    return true;
-}
-*/
 int main (int argc, const char * argv[]) 
 {
 	string path1 = argv[1];

@@ -1,8 +1,5 @@
 #include "../../include/misc.hpp"
-<<<<<<< HEAD
-=======
 #include <iomanip>
->>>>>>> 3becf3b6fdf6b9813b897181bb27f70d1cca2573
 
 vector<string> getShringles(string s, uint k)
 {

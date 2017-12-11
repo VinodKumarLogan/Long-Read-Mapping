@@ -98,8 +98,8 @@ float containmentHash(string smallString, string largeString, uint noOfHashFns, 
     parameters.projected_element_count = shringles2.size();
     parameters.maximum_number_of_hashes = noOfHashFns;
     parameters.compute_optimal_parameters();
-    bloom_filter filter(parameters);
-    bloom_filter tmp;
+    bloom_filter *filter = new bloom_filter(parameters);
+    bloom_filter *tmp = new bloom_filter();
 
     cout << shringles2.size() << endl;
 
@@ -116,7 +116,7 @@ float containmentHash(string smallString, string largeString, uint noOfHashFns, 
 
     for(uint i =0 ;i<shringles2.size();i++)
     {
-        filter.insert(shringles2[i]);
+        filter->insert(shringles2[i]);
     }
 
     uint intersectionCount = 0;
@@ -124,14 +124,14 @@ float containmentHash(string smallString, string largeString, uint noOfHashFns, 
 
     cout << "storing the data to file tmp.boost \n";
     save_bloom_filter("tmp.boost", filter);
-    tmp = get_bloom_filter("tmp.boost");
+    get_bloom_filter("tmp.boost", tmp);
 
 
     for(uint i =0 ;i<minSequence1.size();i++) 
     {
-        if (filter.contains(minSequence1[i]))
+        if (filter->contains(minSequence1[i]))
             intersectionCount++;
-        if (tmp.contains(minSequence1[i]))
+        if (tmp->contains(minSequence1[i]))
             tmpCount++;
     } 
     if (intersectionCount==tmpCount)
