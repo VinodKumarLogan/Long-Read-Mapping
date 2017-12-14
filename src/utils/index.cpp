@@ -35,9 +35,8 @@ float getJacardIndex(string shortRead, string longRead, uint iSingleLen)
     return jacardIndex;
 }
 
-float jaccard_index_query(string shortRead, string longRead, uint iSingleLen)
+float jaccard_index_query(string shortRead, set<string> loSingles, uint iSingleLen)
 {
-    set<string> loSingles = getShringlesSet(longRead, iSingleLen);
     set<string>  shSingles = getShringlesSet(shortRead, iSingleLen);
     vector<string> intersectionSet;
     vector<string> unionSet;

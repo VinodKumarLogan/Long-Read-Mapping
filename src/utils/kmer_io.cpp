@@ -4,32 +4,36 @@ using namespace std;
 
 void addShringlesToFile(string input, int k, string filename)
 {
+    //cout << "get shingle" << filename << "\n";
+    //cout << input;
     vector<string> shringles1 = getShringles(input, k);
     //ofstream myfile;
     ofstream myfile;
-    myfile.open (filename);
-    if (myfile.is_open())
-    {
+    myfile.open (filename.c_str(), ios::out);
+    //cout << "open file\n";
+    //myfile.open (, ios::out);
+        //cout << "open check\n";
         for(int i = 0; i < shringles1.size(); i++)
         {
             myfile << shringles1[i] << "\n";
         }
+        //cout << "close\n";
         myfile.close();
-    }
 }
 
-vector<string> returnShringlesFromFile(string filename)
+set<string> returnShringlesFromFile(string filename)
 {
     vector<string> result;
     ifstream myReadFile;
-    myReadFile.open(filename);
+    myReadFile.open(filename, ios::out);
     char output[10000];
-    if (myReadFile.is_open()) {
+    //if (myReadFile.is_open()) {
         while (myReadFile >> output) {
             result.push_back(output);
         }
-    }
-    return result;
+    //}
+    set<std::string> s(result.begin(), result.end());
+    return s;
 }
 
 void addMinSequenceToFile(string input1, string filename, uint m, uint k)

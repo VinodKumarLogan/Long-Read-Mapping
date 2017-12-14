@@ -73,9 +73,15 @@ void create_read_files(char *fname, int nfiles, int nreads, int rlen, char *outf
 
 	srand(time(NULL));
 
+	//printf("fname - %s\n", fname);
+
 	strcat(path, fname);
 	strcat(path, "/");
-	strcat(path, fname);
+
+	//strcat(path, fname);
+	strcat(path, "genome");
+
+	//printf("path - %s\n", path);
 
 	int outfd = open(outfile, O_RDONLY | O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR);
 	if(outfd < 0)
@@ -86,6 +92,8 @@ void create_read_files(char *fname, int nfiles, int nreads, int rlen, char *outf
 	for(int i = 0; i < nreads; i++)
 	{
 		int r = rand() % nfiles;
+
+		newpath[0] = '\0';
 
 		char c[2];
 		c[0] = r + '0';

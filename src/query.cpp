@@ -29,15 +29,15 @@ int main (int argc, const char * argv[])
 	uint kmer_length = atoi(argv[7]);
 	int no_of_hash_functions = atoi(argv[8]);
 	
-	float indices[number_of_reads][3];
+	float indices[number_of_reads][number_of_genome_files][3];
 
 	for (int i=0;i<number_of_genome_files;i++) {
-		string filename = genome_folder+ std::string("/") + std::to_string(i);
+		string filename = genome_folder+ std::string("/genome") + std::to_string(i);
 		string shingle_filename = filename + ".shingle";
 		string min_filename = filename + ".min";
 		string bloom_filename = filename + ".bloom";
 
-		vector<string> shingles = returnShringlesFromFile(shingle_filename);
+		set<string> shingles = returnShringlesFromFile(shingle_filename);
 		vector<uint> minsequences = returnMinSequenceFromFile(min_filename);
 		bloom_filter filter;
 		get_bloom_filter(bloom_filename.c_str(), &filter); 
@@ -49,35 +49,30 @@ int main (int argc, const char * argv[])
 		for (int j=0;j<number_of_reads;j++) {
 			string read;
 			getline(buffer,read,'\n');
-			//indices[j][0] = ; //Jaccard
-			indices[j][1] = min_hash_query(read, no_of_hash_functions, kmer_length, minsequences); //Minhash
-			indices[j][2] = containment_hash_query(read, no_of_hash_functions, kmer_length, &filter); //Containment
+			indices[j][i][0] = jaccard_index_query(read, shingles,kmer_length); //Jaccard
+			indices[j][i][1] = min_hash_query(read, no_of_hash_functions, kmer_length, minsequences); //Minhash
+			indices[j][i][2] = containment_hash_query(read, no_of_hash_functions, kmer_length, &filter); //Containment
 		}
 	}
 	
-	/*
-	vector<string> shortStrings = readFromPath(path1);
-	vector<string> longStrings = readFromPath(path2);
-	vector<vector<vector<float>>> result;
-	vector<vector<float>> rowVector;
-	vector<float> everyPair;
-	for(int i =0; i< shortStrings.size();i++)
-	{
-		rowVector.clear();
-		for(int j =0; j< longStrings.size();j++)
-		{
-			everyPair.clear();
-			float jakardIndex = getJacardIndex(shortStrings[i], longStrings[j], numberKMers);
-			float minHashIndex = minHash(shortStrings[i], longStrings[j], numberHash, numberKMers);
-			float containmentHashIndex = containmentHash(shortStrings[i], longStrings[j], numberHash, numberKMers);
-			everyPair.push_back(jakardIndex);
-			everyPair.push_back(minHashIndex);
-			everyPair.push_back(containmentHashIndex);
-			rowVector.push_back(everyPair);
+	std::ifstream t(long_read_filename);
+	std::stringstream buffer;
+	buffer << t.rdbuf();
+
+	cout << "Long Read\t\t\tMax Jaccard Genome ID\tMax Minhash Genome ID\tMax Containment Genome ID\n"; 
+	for (int i=0;i<number_of_reads;i++) {
+		string read;
+		getline(buffer,read,'\n');
+		cout << "\n" << read << "\t\t";
+		for (int k=0;k<3;k++) {
+			int max = 0;
+			for(int j=1;j<number_of_genome_files;j++) {
+				if (indices[i][j][k]>= indices[i][max][k])
+					max = j;
+			}
+			cout << indices[i][max][k] << "\t";
 		}
-		result.push_back(rowVector);
 	}
-	printResult(result);
-	*/
+
     return 0;
 }
