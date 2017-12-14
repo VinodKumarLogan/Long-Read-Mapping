@@ -199,6 +199,10 @@ public:
       this->operator=(filter);
    }
 
+   inline double get_bloom_filter_prob() {
+    return     desired_false_positive_probability_;
+   }
+
    inline bool operator == (const bloom_filter& f) const
    {
       if (this != &f)

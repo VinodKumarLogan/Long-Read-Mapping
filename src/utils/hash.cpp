@@ -99,7 +99,7 @@ float containmentHash(string smallString, string largeString, uint noOfHashFns, 
     parameters.maximum_number_of_hashes = noOfHashFns;
     parameters.compute_optimal_parameters();
     bloom_filter *filter = new bloom_filter(parameters);
-    bloom_filter *tmp = new bloom_filter();
+    //bloom_filter *tmp = new bloom_filter();
 
     cout << shringles2.size() << endl;
 
@@ -120,26 +120,64 @@ float containmentHash(string smallString, string largeString, uint noOfHashFns, 
     }
 
     uint intersectionCount = 0;
-    uint tmpCount = 0;
+    /*uint tmpCount = 0;
 
     cout << "storing the data to file tmp.boost \n";
     save_bloom_filter("tmp.boost", filter);
     get_bloom_filter("tmp.boost", tmp);
-
+    */
 
     for(uint i =0 ;i<minSequence1.size();i++) 
     {
         if (filter->contains(minSequence1[i]))
             intersectionCount++;
-        if (tmp->contains(minSequence1[i]))
-            tmpCount++;
+        //if (tmp->contains(minSequence1[i]))
+        //    tmpCount++;
     } 
-    if (intersectionCount==tmpCount)
-        cout<<"Success\n";
+    //if (intersectionCount==tmpCount)
+    //    cout<<"Success\n";
     float containmentIndex = (float)(intersectionCount - (int)(parameters.false_positive_probability*noOfHashFns))/(float)noOfHashFns;
     return containmentIndex;
 }
 
 
+float containment_hash_query(string smallString, uint noOfHashFns, uint kMerLength, bloom_filter *filter ) {
+    vector<string> shringles1 = getShringles(smallString, kMerLength);
+    vector<pair<string, vector<uint> > > shringleHashPair1;
+    vector<uint> randoms = generateRandoms(noOfHashFns);
+    for(uint i =0 ;i<shringles1.size();i++)
+    {
+        size_t h1 = hash<string>{}(shringles1[i]);
+        vector<uint> hashValues = generateRandomMinHashes(h1, randoms);
+        shringleHashPair1.push_back(make_pair(shringles1[i], hashValues));
+    }
+
+    vector<string> minSequence1 = getMinSequenceStrings(shringleHashPair1);
+    uint intersectionCount = 0;
+    for(uint i =0 ;i<minSequence1.size();i++) 
+    {
+        if (filter->contains(minSequence1[i]))
+            intersectionCount++;
+    } 
+    float containmentIndex = (float)(intersectionCount - (int)(filter->get_bloom_filter_prob()*noOfHashFns))/(float)noOfHashFns;
+    return containmentIndex;
+}
+
+
+float min_hash_query(string smallString, uint noOfHashFns, uint kMerLength, vector<uint> minSequence2) {
+    vector<string> shringles1 = getShringles(smallString, kMerLength);
+    vector<pair<string, vector<uint> > > shringleHashPair1;
+    vector<uint> randoms = generateRandoms(noOfHashFns);
+    for(uint i =0 ;i<shringles1.size();i++)
+    {
+        size_t h1 = hash<string>{}(shringles1[i]);
+        vector<uint> hashValues = generateRandomMinHashes(h1, randoms);
+        shringleHashPair1.push_back(make_pair(shringles1[i], hashValues));
+    }
+
+    vector<uint> minSequence1 = getMinSequence(shringleHashPair1);
+    float minHashIndex = getMinHashIndex(minSequence1,minSequence2, noOfHashFns);
+    return minHashIndex;
+}
 
 

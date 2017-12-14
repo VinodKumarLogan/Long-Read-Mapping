@@ -2,6 +2,8 @@
 #include "../include/index.hpp"
 #include "../include/misc.hpp"
 #include "../include/reads.hpp"
+#include "../include/io.hpp"
+#include <sstream>
 
 /*
  * Usage: ./build_indices <directory_path_for_reference_genome_files> <number_of_genome_files>\
@@ -15,7 +17,7 @@
 
 int main (int argc, const char * argv[]) 
 {
-	if (argc!=6) {
+	if (argc!=8) {
 		printf("Invalid arguments\n");
 		return 0;
 	}
@@ -27,8 +29,8 @@ int main (int argc, const char * argv[])
 	char mapper_file_name[100];
 	strcpy(mapper_file_name,argv[5]);
 
-	//uint kmer_length = atoi(argv[6]);
-	//uint hash_function_count = atoi(argv[7]);
+	uint kmer_length = atoi(argv[6]);
+	int hash_function_count = atoi(argv[7]);
 	
 	/*
 	unsigned long long int bloom_filter_minimum_size = atoll(argv[6]);
@@ -42,7 +44,23 @@ int main (int argc, const char * argv[])
 	unsigned long long int bloom_filter_table_size = atoll(argv[14]);
 	*/
 
+
+	bloom_parameters parameters;
+
 	create_read_files(genome_folder, number_of_genome_files, number_of_reads, read_length, mapper_file_name);
+
+	for (int i=0;i<number_of_genome_files;i++) {
+		string filename = genome_folder+ std::string("/") + std::to_string(i);
+		std::ifstream t(filename);
+		std::stringstream buffer;
+		buffer << t.rdbuf();
+		string shingle_filename = filename + ".shingle";
+		addShringlesToFile(buffer.str(), kmer_length, shingle_filename);
+		string min_filename = filename + ".min";
+		addMinSequenceToFile(buffer.str(), min_filename, hash_function_count, kmer_length);
+		string bloom_filename = filename + ".bloom";
+		save_bloom_filter(buffer.str(), bloom_filename.c_str(), parameters, kmer_length);
+	}
 	
 	/*
 	vector<string> shortStrings = readFromPath(path1);
